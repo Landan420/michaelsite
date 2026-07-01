@@ -32,6 +32,7 @@ import heroImage from './assets/hero.png'
 import crewPhoto from './assets/michbanner.png'
 import profileImage from './assets/profile.jpg'
 import './App.css'
+import DOMPurify from 'dompurify'
 
 const SPEC_SECTIONS = [
   {
@@ -110,9 +111,27 @@ function DiscordIcon({ size = 18 }) {
   )
 }
 
+function GitHubIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" />
+    </svg>
+  )
+}
+
+function RobloxIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M5.24 1.11L1.11 18.76 18.76 22.89 22.89 5.24 5.24 1.11zm9.42 12.43l-5.27-1.25 1.25-5.27 5.27 1.25-1.25 5.27z" />
+    </svg>
+  )
+}
+
 const socials = [
-  { label: 'Instagram', href: 'https://www.instagram.com/bishhhhop/', icon: InstagramIcon },
-  { label: 'Discord server', href: 'https://discord.gg/gogurt', icon: DiscordIcon },
+  { label: 'Instagram', href: 'https://www.instagram.com/bishhhhop/', icon: InstagramIcon, cls: 'social-badge--instagram' },
+  { label: 'Discord', href: 'https://discord.gg/gogurt', icon: DiscordIcon, cls: 'social-badge--discord' },
+  { label: 'GitHub', href: 'https://github.com/ihymich', icon: GitHubIcon, cls: 'social-badge--github' },
+  { label: 'Roblox', href: 'https://www.roblox.com/users/ihymich/profile', icon: RobloxIcon, cls: 'social-badge--roblox' },
 ]
 
 const recentTracks = [
@@ -857,7 +876,7 @@ function UploadsPage() {
     <main className="bio-shell uploads-page-shell">
       <div className="top-rainbow-bar" aria-hidden="true" />
       <div className="page-backdrop" />
-      <a href="/" className="uploads-back">← back</a>
+      <button onClick={() => navigate('/')} className="uploads-back">← back</button>
       <div className="uploads-page-content">
         <h1 className="uploads-page-title">uploads</h1>
         <p className="uploads-page-sub">files, scripts &amp; stuff</p>
@@ -1175,20 +1194,23 @@ function SpecsModal({ onClose }) {
 
 function AboutCard({ onOpenSpecs, aboutBio }) {
   const tiltRef = useTilt()
+  const hasText = aboutBio && aboutBio.replace(/<[^>]*>/g, '').trim().length > 0
+  const bioHtml = hasText ? aboutBio : DEFAULT_BIO
   return (
     <section className="section-card about-card" ref={tiltRef}>
       <div className="section-title-row">
         <h2>About Me</h2>
-        <div className="social-links">
-          {socials.map(({ label, href, icon: Icon }) => (
-            <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label}>
-              <Icon size={18} />
+        <div className="social-badges">
+          {socials.map(({ label, href, icon: Icon, cls }) => (
+            <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} className={`profile-badge ${cls}`}>
+              <Icon size={12} />
+              <span className="badge-label">{label}</span>
             </a>
           ))}
         </div>
       </div>
       <div className="about-copy">
-        {aboutBio && <div className="about-bio-text" dangerouslySetInnerHTML={{ __html: aboutBio }} />}
+        <div className="about-bio-text" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(bioHtml, { ALLOWED_TAGS: ['h2','h3','p','span','b','i','u','s','strong','em','ul','ol','li','blockquote','br','div'], ALLOWED_ATTR: ['class','style'] }) }} />
         <div>
           <button className="specs-btn" onClick={onOpenSpecs}>
             My Setup
@@ -1622,6 +1644,12 @@ const NAME_STYLES = [
   { id: 'toxic',  label: 'Toxic'  },
 ]
 
+const DEFAULT_BIO = `<div><h3>Who am I?</h3><p>i'm <b>J4ke</b>, a gamer and music addict from the midwest.</p></div><div><h3>My Interests</h3><p>gaming, listening to music on repeat, and hanging in discord.</p></div>`
+
+function navigate(href) {
+  window.location.href = href
+}
+
 const RTE_TOOLS = [
   { cmd: 'bold',               label: 'B',    title: 'Bold',           style: { fontWeight: 700 } },
   { cmd: 'italic',             label: 'I',    title: 'Italic',         style: { fontStyle: 'italic' } },
@@ -1641,6 +1669,17 @@ const RTE_TOOLS = [
   { cmd: 'insertOrderedList',   label: '1—', title: 'Numbered list' },
   'sep',
   { cmd: 'removeFormat', label: '✕', title: 'Clear formatting' },
+]
+
+const RTE_EFFECTS = [
+  { cls: 'rainbow-text',        label: '🌈', title: 'Rainbow'                    },
+  { cls: 'name-style-neon',     label: '⚡', title: 'Neon'                      },
+  { cls: 'name-style-holo',     label: '✦',  title: 'Holo',   size: '18px'      },
+  { cls: 'name-style-glitch',   label: '▓',  title: 'Glitch', size: '10px'      },
+  { cls: 'name-style-fire',     label: '🔥', title: 'Fire'                      },
+  { cls: 'name-style-ice',      label: '❄',  title: 'Ice',    size: '18px'      },
+  { cls: 'name-style-chrome',   label: '◈',  title: 'Chrome', size: '18px'      },
+  { cls: 'name-style-aurora',   label: '◉',  title: 'Aurora', size: '18px'      },
 ]
 
 function resizeImageFile(file, maxW, maxH) {
@@ -1715,6 +1754,40 @@ function RichBioEditor({ value, onChange }) {
     setTimeout(() => { skipSync.current = false }, 0)
   }
 
+  function applyEffect(cls) {
+    editorRef.current?.focus()
+    const sel = window.getSelection()
+    if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return
+    const range = sel.getRangeAt(0)
+
+    let existingSpan = null
+    let node = range.commonAncestorContainer
+    if (node.nodeType === Node.TEXT_NODE) node = node.parentElement
+    let cursor = node
+    while (cursor && cursor !== editorRef.current) {
+      if (cursor.tagName === 'SPAN' && cursor.classList.contains(cls)) {
+        existingSpan = cursor; break
+      }
+      cursor = cursor.parentElement
+    }
+
+    if (existingSpan) {
+      const unwrapRange = document.createRange()
+      unwrapRange.selectNode(existingSpan)
+      sel.removeAllRanges()
+      sel.addRange(unwrapRange)
+      document.execCommand('insertHTML', false, existingSpan.innerHTML)
+    } else {
+      const tmp = document.createElement('div')
+      tmp.appendChild(range.cloneContents())
+      document.execCommand('insertHTML', false, `<span class="${cls}">${tmp.innerHTML}</span>`)
+    }
+
+    skipSync.current = true
+    onChange(editorRef.current.innerHTML)
+    setTimeout(() => { skipSync.current = false }, 0)
+  }
+
   function onInput() {
     skipSync.current = true
     onChange(editorRef.current.innerHTML)
@@ -1739,6 +1812,21 @@ function RichBioEditor({ value, onChange }) {
           )
         })}
       </div>
+      <div className="rte-toolbar rte-toolbar--effects">
+        <span className="rte-effects-label">fx</span>
+        {RTE_EFFECTS.map(fx => (
+          <button
+            key={fx.cls}
+            type="button"
+            title={fx.title}
+            className="rte-effect-btn"
+            style={fx.size ? { fontSize: fx.size } : undefined}
+            onMouseDown={e => { e.preventDefault(); applyEffect(fx.cls) }}
+          >
+            {fx.label}
+          </button>
+        ))}
+      </div>
       <div
         ref={editorRef}
         className="rte-body"
@@ -1762,50 +1850,53 @@ function useSiteContent() {
   return content
 }
 
-function AdminPanel() {
-  const [step, setStep] = useState(() => localStorage.getItem('admin_token') ? 'check' : 'email')
-  const [email, setEmail] = useState('')
-  const [code, setCode] = useState('')
-  const [otpToken, setOtpToken] = useState('')
-  const [token, setToken] = useState(() => localStorage.getItem('admin_token') || '')
-  const [content, setContent] = useState({
-    custom_status: '', location: '', about_bio: '',
-    custom_name: '', custom_handle: '', ascii_comment: '', name_style: 'melt',
-    custom_avatar_url: '', custom_banner_url: '',
-  })
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [saved, setSaved] = useState(false)
-  const [adminFiles, setAdminFiles] = useState([])
+function AdminNav({ active }) {
+  return (
+    <div className="admin-nav">
+      <span className="admin-nav-label">admin</span>
+      <button
+        className={`admin-nav-tab${active === 'editor' ? ' active' : ''}`}
+        onClick={() => navigate('/admin')}
+      >editor</button>
+      <button
+        className={`admin-nav-tab${active === 'uploads' ? ' active' : ''}`}
+        onClick={() => navigate('/admin/uploads')}
+      >uploads</button>
+    </div>
+  )
+}
+
+function AdminUploadsPanel() {
+  const [verified, setVerified] = useState(false)
+  const [files, setFiles] = useState([])
   const [uploadDesc, setUploadDesc] = useState('')
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState('')
   const uploadInputRef = useRef(null)
   const { profile: discordProfile } = useDiscordPresence()
-  const spotify = discordProfile?.spotify
-  useAccentColor(spotify?.album_art_url)
+  useAccentColor(discordProfile?.spotify?.album_art_url)
 
   useEffect(() => {
-    if (step !== 'check' || !token) return
+    const token = localStorage.getItem('admin_token')
+    if (!token) { navigate('/admin'); return }
     fetch('/api/admin/content', { headers: { Authorization: `Bearer ${token}` } })
-      .then(r => r.ok ? r.json() : null)
-      .then(data => {
-        if (data) { setContent(data); setStep('panel') }
-        else { localStorage.removeItem('admin_token'); setToken(''); setStep('email') }
+      .then(r => {
+        if (!r.ok) { localStorage.removeItem('admin_token'); navigate('/admin') }
+        else setVerified(true)
       })
-      .catch(() => setStep('email'))
-  }, [step, token])
+      .catch(() => navigate('/admin'))
+  }, [])
 
   useEffect(() => {
-    if (step !== 'panel') return
-    fetch('/api/files').then(r => r.json()).then(setAdminFiles).catch(() => {})
-  }, [step])
+    if (!verified) return
+    fetch('/api/files').then(r => r.json()).then(setFiles).catch(() => {})
+  }, [verified])
 
   async function handleUploadFile(e) {
     const file = e.target.files?.[0]
     if (!file) return
-    setUploading(true)
-    setUploadError('')
+    const token = localStorage.getItem('admin_token')
+    setUploading(true); setUploadError('')
     const desc = uploadDesc
     const reader = new FileReader()
     reader.onload = async (ev) => {
@@ -1818,21 +1909,115 @@ function AdminPanel() {
         })
         if (!res.ok) { const err = await res.json().catch(() => ({})); throw new Error(err.error || `Upload failed (${res.status})`) }
         const { id } = await res.json()
-        setAdminFiles(prev => [{ id, name: file.name, ext, description: desc, data: ev.target.result, size: file.size, created_at: Date.now() }, ...prev])
+        setFiles(prev => [{ id, name: file.name, ext, description: desc, size: file.size, created_at: Date.now() }, ...prev])
         setUploadDesc('')
-      } catch (err) {
-        setUploadError(err.message || 'Upload failed')
-      }
-      setUploading(false)
-      e.target.value = ''
+      } catch (err) { setUploadError(err.message || 'Upload failed') }
+      setUploading(false); e.target.value = ''
     }
     reader.readAsDataURL(file)
   }
 
   async function deleteUpload(id) {
+    const token = localStorage.getItem('admin_token')
     await fetch(`/api/admin/files?id=${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } })
-    setAdminFiles(prev => prev.filter(f => f.id !== id))
+    setFiles(prev => prev.filter(f => f.id !== id))
   }
+
+  function logout() {
+    const token = localStorage.getItem('admin_token')
+    fetch('/api/admin/logout', { method: 'POST', headers: { Authorization: `Bearer ${token}` } }).catch(() => {})
+    localStorage.removeItem('admin_token')
+    navigate('/admin')
+  }
+
+  if (!verified) {
+    return (
+      <div className="admin-shell">
+        <div className="top-rainbow-bar" aria-hidden="true" />
+        <div className="page-backdrop" />
+        <p className="admin-checking">checking session…</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="admin-shell">
+      <div className="top-rainbow-bar" aria-hidden="true" />
+      <div className="page-backdrop" />
+      <AdminNav active="uploads" />
+      <div className="admin-panel admin-panel--wide">
+        <div className="admin-panel-header">
+          <h2 className="admin-panel-title"><button onClick={() => navigate('/')} className="admin-site-link">site</button> uploads</h2>
+          <button type="button" className="admin-back" onClick={logout}>logout</button>
+        </div>
+
+        <div className="admin-fields">
+          {files.length > 0 && (
+            <div className="admin-upload-list">
+              {files.map(f => (
+                <div key={f.id} className="admin-upload-item">
+                  <span className="aui-icon">{fileIcon(f.ext)}</span>
+                  <div className="aui-meta">
+                    <span className="aui-name">{f.name}</span>
+                    <span className="aui-detail">{formatBytes(f.size)} · {formatUploadDate(f.created_at)}</span>
+                    {f.description ? <span className="aui-desc">{f.description}</span> : null}
+                  </div>
+                  <button type="button" className="admin-clear-btn" onClick={() => deleteUpload(f.id)} title="Remove">✕</button>
+                </div>
+              ))}
+            </div>
+          )}
+          {files.length === 0 && <p className="admin-hint">no uploads yet</p>}
+
+          {uploadError && <p className="admin-upload-error">{uploadError}</p>}
+          <div className="admin-upload-row">
+            <input
+              className="admin-input"
+              type="text"
+              placeholder="description (optional)"
+              value={uploadDesc}
+              onChange={e => setUploadDesc(e.target.value)}
+            />
+            <input ref={uploadInputRef} type="file" style={{ display: 'none' }} onChange={handleUploadFile} />
+            <button type="button" className="admin-btn admin-btn--sm" onClick={() => uploadInputRef.current?.click()} disabled={uploading}>
+              {uploading ? '…' : '↑ upload file'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function AdminPanel() {
+  const [step, setStep] = useState(() => localStorage.getItem('admin_token') ? 'check' : 'email')
+  const [email, setEmail] = useState('')
+  const [code, setCode] = useState('')
+  const [otpToken, setOtpToken] = useState('')
+  const [remember, setRemember] = useState(true)
+  const [token, setToken] = useState(() => localStorage.getItem('admin_token') || '')
+  const [content, setContent] = useState({
+    custom_status: '', location: '', about_bio: '',
+    custom_name: '', custom_handle: '', ascii_comment: '', name_style: 'melt',
+    custom_avatar_url: '', custom_banner_url: '',
+  })
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [saved, setSaved] = useState(false)
+  const { profile: discordProfile } = useDiscordPresence()
+  const spotify = discordProfile?.spotify
+  useAccentColor(spotify?.album_art_url)
+
+  useEffect(() => {
+    if (step !== 'check' || !token) return
+    fetch('/api/admin/content', { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data) { setContent(c => ({ ...c, ...data })); setStep('panel') }
+        else { localStorage.removeItem('admin_token'); setToken(''); setStep('email') }
+      })
+      .catch(() => setStep('email'))
+  }, [step, token])
 
   async function requestOtp(e) {
     e.preventDefault()
@@ -1857,7 +2042,7 @@ function AdminPanel() {
       const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, code, otpToken }),
+        body: JSON.stringify({ email, code, otpToken, remember }),
       })
       const data = await res.json()
       if (data.token) {
@@ -1949,6 +2134,10 @@ function AdminPanel() {
             autoComplete="one-time-code"
           />
           {error && <p className="admin-error">{error}</p>}
+          <label className="admin-remember">
+            <input type="checkbox" checked={remember} onChange={e => setRemember(e.target.checked)} />
+            keep me logged in for 30 days
+          </label>
           <button className="admin-btn" type="submit" disabled={loading}>
             {loading ? '…' : 'verify'}
           </button>
@@ -1966,9 +2155,10 @@ function AdminPanel() {
     <div className="admin-shell">
       <div className="top-rainbow-bar" aria-hidden="true" />
       <div className="page-backdrop" />
+      <AdminNav active="editor" />
       <form className="admin-panel admin-panel--wide" onSubmit={save}>
         <div className="admin-panel-header">
-          <h2 className="admin-panel-title"><a href="/" className="admin-site-link">site</a> editor</h2>
+          <h2 className="admin-panel-title"><button onClick={() => navigate('/')} className="admin-site-link">site</button> editor</h2>
           <button type="button" className="admin-back" onClick={logout}>logout</button>
         </div>
 
@@ -2085,43 +2275,11 @@ function AdminPanel() {
           <div className="admin-field">
             <span>about bio</span>
             <RichBioEditor
-              value={content.about_bio || ''}
+              value={(content.about_bio && content.about_bio.replace(/<[^>]*>/g, '').trim().length > 0) ? content.about_bio : DEFAULT_BIO}
               onChange={val => setContent(c => ({ ...c, about_bio: val }))}
             />
           </div>
 
-          <p className="admin-section-label">uploads</p>
-
-          {adminFiles.length > 0 && (
-            <div className="admin-upload-list">
-              {adminFiles.map(f => (
-                <div key={f.id} className="admin-upload-item">
-                  <span className="aui-icon">{fileIcon(f.ext)}</span>
-                  <div className="aui-meta">
-                    <span className="aui-name">{f.name}</span>
-                    <span className="aui-detail">{formatBytes(f.size)} · {formatUploadDate(f.created_at)}</span>
-                    {f.description ? <span className="aui-desc">{f.description}</span> : null}
-                  </div>
-                  <button type="button" className="admin-clear-btn" onClick={() => deleteUpload(f.id)} title="Remove">✕</button>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {uploadError && <p className="admin-upload-error">{uploadError}</p>}
-          <div className="admin-upload-row">
-            <input
-              className="admin-input"
-              type="text"
-              placeholder="description (optional)"
-              value={uploadDesc}
-              onChange={e => setUploadDesc(e.target.value)}
-            />
-            <input ref={uploadInputRef} type="file" style={{ display: 'none' }} onChange={handleUploadFile} />
-            <button type="button" className="admin-btn admin-btn--sm" onClick={() => uploadInputRef.current?.click()} disabled={uploading}>
-              {uploading ? '…' : '↑ upload file'}
-            </button>
-          </div>
         </div>
 
         {error && <p className="admin-error">{error}</p>}
@@ -2135,6 +2293,7 @@ function AdminPanel() {
 
 export default function App() {
   if (window.location.pathname === '/admin') return <AdminPanel />
+  if (window.location.pathname === '/admin/uploads') return <AdminUploadsPanel />
   if (window.location.pathname === '/uploads') return <UploadsPage />
   const now = useClock()
   const { profile, loading } = useDiscordPresence()
@@ -2142,7 +2301,21 @@ export default function App() {
   const siteContent = useSiteContent()
   const [selectedTrack, setSelectedTrack] = useState(null)
   const [specsOpen, setSpecsOpen] = useState(false)
-  useAccentColor(profile.spotify?.album_art_url)
+  const [navOpen, setNavOpen] = useState(true)
+  const scrollPrev = useRef(0)
+  useAccentColor(selectedTrack?.image || profile.spotify?.album_art_url)
+
+  useEffect(() => {
+    if (!window.matchMedia('(max-width: 620px)').matches) return
+    const onScroll = () => {
+      const y = window.scrollY
+      if (y > scrollPrev.current + 5 && y > 40) setNavOpen(false)
+      else if (y < 30) setNavOpen(true)
+      scrollPrev.current = y
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   const location = siteContent.location || 'KC, MO'
   const customStatusFallback = siteContent.custom_status || fallbackProfile.customStatus
@@ -2155,11 +2328,18 @@ export default function App() {
 
   return (
     <main className="bio-shell">
-      <div className="top-rainbow-bar" aria-hidden="true" />
-      <div className="ascii-comment">
+      <div className={`top-rainbow-bar${(profile.spotify || selectedTrack) ? ' top-rainbow-bar--playing' : ''}`} aria-hidden="true" />
+      <div className={`ascii-comment${navOpen ? '' : ' ascii-comment--closed'}`}>
         <span aria-hidden="true">{siteContent.ascii_comment || '@ihymich'}</span>
-        <a href="/uploads" className="uploads-top-link">uploads</a>
-        <a href="/admin" className="uploads-top-link">login</a>
+        <button onClick={e => { e.preventDefault(); navigate('/uploads') }} className="uploads-top-link">uploads</button>
+        <button onClick={e => { e.preventDefault(); navigate('/admin') }} className="uploads-top-link">login</button>
+        <button
+          className="ascii-comment-close"
+          onClick={() => setNavOpen(false)}
+          aria-label="Close navigation"
+        >
+          <X size={11} />
+        </button>
       </div>
       <div className="page-backdrop" />
       <section className="bio-container">
