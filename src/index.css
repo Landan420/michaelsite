@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg: #000;
+  --surface: rgba(6, 0, 12, 0.88);
+  --border: rgba(160, 0, 64, 0.22);
+  --text: #e8deff;
+  --text-soft: #7a6890;
+  --text-dim: #3d2d50;
+  --text-h: #ffffff;
+  --accent: #b00050;
+  --accent-2: #5500aa;
+  --sans: 'Inter', 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', Consolas, monospace;
+  color: var(--text);
+  background: var(--bg);
+  font: 15px/1.55 var(--sans);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--bg);
+}
+
+body,
+button,
+input {
+  font-family: var(--sans);
+}
+
+button,
+input {
+  font-size: inherit;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgba(160, 0, 64, 0.38);
+}
