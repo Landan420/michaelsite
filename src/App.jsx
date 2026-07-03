@@ -2,6 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   Activity,
   AlertTriangle,
+  ArrowDown,
+  ArrowUp,
   CircuitBoard,
   Clock3,
   Code2,
@@ -14,9 +16,11 @@ import {
   HardDrive,
   Headphones,
   Keyboard,
+  Link as LinkIcon,
   MemoryStick,
   Monitor,
   Mouse,
+  Music2,
   Pause,
   Play,
   Plus,
@@ -24,6 +28,7 @@ import {
   Search,
   Smartphone,
   Ticket,
+  Trash2,
   Upload,
   Volume2,
   X,
@@ -111,10 +116,87 @@ function DiscordIcon({ size = 18 }) {
   )
 }
 
+function GitHubIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" />
+    </svg>
+  )
+}
+
+function RobloxIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M5.24 1.11L1.11 18.76 18.76 22.89 22.89 5.24 5.24 1.11zm9.42 12.43l-5.27-1.25 1.25-5.27 5.27 1.25-1.25 5.27z" />
+    </svg>
+  )
+}
+
+function XTwitterIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z" />
+    </svg>
+  )
+}
+
+function YoutubeIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M23.5 6.19a3.02 3.02 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.509A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.123 2.136c1.872.509 9.377.509 9.377.509s7.505 0 9.377-.509A3.02 3.02 0 0 0 23.5 17.81C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </svg>
+  )
+}
+
+function TwitchIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z" />
+    </svg>
+  )
+}
+
 const socials = [
   { label: 'Instagram', href: 'https://www.instagram.com/bishhhhop/', icon: InstagramIcon, cls: 'social-badge--instagram' },
   { label: 'Discord', href: 'https://discord.gg/gogurt', icon: DiscordIcon, cls: 'social-badge--discord' },
 ]
+
+const SOCIAL_PLATFORMS = [
+  { match: ['instagram.com'], icon: InstagramIcon, cls: 'social-badge--instagram' },
+  { match: ['discord.gg', 'discord.com'], icon: DiscordIcon, cls: 'social-badge--discord' },
+  { match: ['github.com'], icon: GitHubIcon, cls: 'social-badge--github' },
+  { match: ['roblox.com'], icon: RobloxIcon, cls: 'social-badge--roblox' },
+  { match: ['twitter.com', 'x.com'], icon: XTwitterIcon, cls: 'social-badge--twitter' },
+  { match: ['youtube.com', 'youtu.be'], icon: YoutubeIcon, cls: 'social-badge--youtube' },
+  { match: ['twitch.tv'], icon: TwitchIcon, cls: 'social-badge--twitch' },
+  { match: ['steamcommunity.com', 'steampowered.com'], icon: SteamIcon, cls: 'social-badge--steam' },
+  { match: ['spotify.com'], icon: SpotifyGlyph, cls: 'social-badge--spotify' },
+  { match: ['tiktok.com'], icon: Music2, cls: 'social-badge--tiktok' },
+]
+
+function detectSocialPlatform(href) {
+  let host = ''
+  try { host = new URL(href).hostname.replace(/^www\./, '') } catch {}
+  for (const platform of SOCIAL_PLATFORMS) {
+    if (platform.match.some(d => host === d || host.endsWith(`.${d}`))) return platform
+  }
+  return { icon: LinkIcon, cls: 'social-badge--generic' }
+}
+
+function parseCustomSocials(raw) {
+  if (!raw) return null
+  try {
+    const list = JSON.parse(raw)
+    if (!Array.isArray(list)) return null
+    const cleaned = list
+      .filter(s => s && typeof s.href === 'string' && s.href.trim())
+      .map(s => {
+        const { icon, cls } = detectSocialPlatform(s.href)
+        return { label: String(s.label || '').trim() || 'link', href: s.href.trim(), icon, cls }
+      })
+    return cleaned.length > 0 ? cleaned : null
+  } catch { return null }
+}
 
 const recentTracks = [
   {
@@ -557,64 +639,98 @@ function useDiscordPresence() {
   return { profile, loading }
 }
 
-function boostColor([r, g, b]) {
-  const nr = r / 255, ng = g / 255, nb = b / 255
-  const max = Math.max(nr, ng, nb), min = Math.min(nr, ng, nb)
-  const l = (max + min) / 2
-  const d = max - min
-  let h = 0, s = 0
+// ── color math helpers ────────────────────────────
+function rgbToHsv(r, g, b) {
+  r /= 255; g /= 255; b /= 255
+  const max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min
+  const v = max
+  const s = max === 0 ? 0 : d / max
+  let h = 0
   if (d > 0) {
-    s = d / (1 - Math.abs(2 * l - 1))
-    if (max === nr) h = ((ng - nb) / d + 6) % 6
-    else if (max === ng) h = (nb - nr) / d + 2
-    else h = (nr - ng) / d + 4
+    if      (max === r) h = ((g - b) / d % 6 + 6) % 6
+    else if (max === g) h = (b - r) / d + 2
+    else                h = (r - g) / d + 4
     h *= 60
   }
-  const ns = Math.min(1, s * 1.4 + 0.3)
-  const nl = 0.54
-  const c = (1 - Math.abs(2 * nl - 1)) * ns
-  const x = c * (1 - Math.abs((h / 60) % 2 - 1))
-  const m = nl - c / 2
-  let rr = 0, gg = 0, bb = 0
-  if (h < 60) { rr = c; gg = x }
-  else if (h < 120) { rr = x; gg = c }
-  else if (h < 180) { gg = c; bb = x }
-  else if (h < 240) { gg = x; bb = c }
-  else if (h < 300) { rr = x; bb = c }
-  else { rr = c; bb = x }
-  return [Math.round((rr + m) * 255), Math.round((gg + m) * 255), Math.round((bb + m) * 255)]
+  return [h, s, v]
 }
 
+function hslToRgb(h, s, l) {
+  const c = (1 - Math.abs(2 * l - 1)) * s
+  const x = c * (1 - Math.abs((h / 60) % 2 - 1))
+  const m = l - c / 2
+  let r = 0, g = 0, b = 0
+  if      (h < 60)  { r = c; g = x }
+  else if (h < 120) { r = x; g = c }
+  else if (h < 180) { g = c; b = x }
+  else if (h < 240) { g = x; b = c }
+  else if (h < 300) { r = x; b = c }
+  else              { r = c; b = x }
+  return [Math.round((r + m) * 255), Math.round((g + m) * 255), Math.round((b + m) * 255)]
+}
+
+// ── dominant color via hue histogram ─────────────
+// Works in hue-space so red stays red, blue stays blue.
+// Frequency-weighted: the color covering the most area wins.
+// Outputs at fixed lightness so every hue looks equally vivid on the dark theme.
+const _colorCache = new Map()
+
 function extractDominantColor(url) {
-  return new Promise((resolve) => {
+  if (_colorCache.has(url)) return Promise.resolve(_colorCache.get(url))
+  return new Promise(resolve => {
     const img = new Image()
     img.crossOrigin = 'anonymous'
     img.onload = () => {
       try {
-        const size = 24
-        const canvas = document.createElement('canvas')
-        canvas.width = size
-        canvas.height = size
-        const ctx = canvas.getContext('2d')
-        ctx.drawImage(img, 0, 0, size, size)
-        const { data } = ctx.getImageData(0, 0, size, size)
-        let best = null
-        let bestScore = -1
+        const S = 80
+        const cv = document.createElement('canvas')
+        cv.width = cv.height = S
+        const ctx = cv.getContext('2d')
+        ctx.drawImage(img, 0, 0, S, S)
+        const { data } = ctx.getImageData(0, 0, S, S)
+
+        // 36 hue bins × 10° each
+        const BINS = 36
+        const hist = new Float32Array(BINS)
+        let totalWeight = 0
+
         for (let i = 0; i < data.length; i += 4) {
-          const r = data[i], g = data[i + 1], b = data[i + 2], a = data[i + 3]
-          if (a < 128) continue
-          const max = Math.max(r, g, b)
-          const min = Math.min(r, g, b)
-          const sat = max === 0 ? 0 : (max - min) / max
-          const bri = max / 255
-          if (bri < 0.12 || bri > 0.95 || sat < 0.15) continue
-          const score = sat * 3 + bri * 0.3
-          if (score > bestScore) { bestScore = score; best = [r, g, b] }
+          if (data[i + 3] < 128) continue
+          const [h, s, v] = rgbToHsv(data[i], data[i + 1], data[i + 2])
+          // Skip near-black, near-white, and grays — they have no real hue
+          if (s < 0.18 || v < 0.10 || v > 0.97) continue
+          // Weight by saturation × value: vivid, visible pixels vote harder
+          const w = s * v
+          hist[Math.floor(h / 10) % BINS] += w
+          totalWeight += w
         }
-        resolve(best ? boostColor(best) : null)
-      } catch {
-        resolve(null)
-      }
+
+        // Fewer than 3% colored pixels → grayscale image → return muted silver
+        if (totalWeight < S * S * 0.03) {
+          const fallback = [200, 200, 220]
+          _colorCache.set(url, fallback)
+          resolve(fallback)
+          return
+        }
+
+        // Smooth across neighbors to handle bin-edge splits (red at 0°/360°, etc.)
+        const smooth = new Float32Array(BINS)
+        for (let i = 0; i < BINS; i++) {
+          smooth[i] = hist[(i - 1 + BINS) % BINS] * 0.2
+                    + hist[i]                       * 0.6
+                    + hist[(i + 1) % BINS]          * 0.2
+        }
+
+        // Peak bin = dominant hue
+        let peak = 0
+        for (let i = 1; i < BINS; i++) if (smooth[i] > smooth[peak]) peak = i
+        const hue = (peak + 0.5) * 10
+
+        // Output a vivid mid-lightness tone — matches the site's dark accent style
+        const result = hslToRgb(hue, 0.90, 0.55)
+        _colorCache.set(url, result)
+        resolve(result)
+      } catch { resolve(null) }
     }
     img.onerror = () => resolve(null)
     img.src = url
@@ -704,6 +820,264 @@ function useServerStats() {
   }, [])
 
   return stats
+}
+
+const PARTICLE_COUNT = 65
+
+const PARTICLE_STYLES = [
+  { id: 'none',      label: '— none'       },
+  { id: 'dots',      label: '● dots'       },
+  { id: 'stars',     label: '✦ stars'      },
+  { id: 'sparkles',  label: '✧ sparkles'   },
+  { id: 'snow',      label: '❄ snow'       },
+  { id: 'fireflies', label: '✺ fireflies'  },
+  { id: 'matrix',    label: '字 matrix'     },
+  { id: 'aurora',    label: '〜 aurora'     },
+]
+
+const MATRIX_CHARS = 'アイウエオカキクケコサシスセソタチツテトナニヌネノ01'
+
+function drawStar(ctx, x, y, r, angle) {
+  ctx.save()
+  ctx.translate(x, y)
+  ctx.rotate(angle)
+  ctx.beginPath()
+  for (let i = 0; i < 8; i++) {
+    const a = (i * Math.PI) / 4
+    const rad = i % 2 === 0 ? r : r * 0.42
+    if (i === 0) ctx.moveTo(rad * Math.cos(a), rad * Math.sin(a))
+    else ctx.lineTo(rad * Math.cos(a), rad * Math.sin(a))
+  }
+  ctx.closePath()
+  ctx.fill()
+  ctx.restore()
+}
+
+function drawSparkle(ctx, x, y, r, angle) {
+  ctx.save()
+  ctx.translate(x, y)
+  ctx.rotate(angle)
+  ctx.beginPath()
+  ctx.moveTo(0, -r);    ctx.lineTo(0, r)
+  ctx.moveTo(-r, 0);    ctx.lineTo(r, 0)
+  ctx.moveTo(-r * 0.65, -r * 0.65); ctx.lineTo(r * 0.65, r * 0.65)
+  ctx.moveTo(r * 0.65, -r * 0.65);  ctx.lineTo(-r * 0.65, r * 0.65)
+  ctx.stroke()
+  ctx.restore()
+}
+
+function ParticleCanvas({ type }) {
+  const canvasRef = useRef(null)
+
+  useEffect(() => {
+    if (type === 'none') return
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    let animId
+    let w = window.innerWidth
+    let h = window.innerHeight
+    let accentR = 160, accentG = 0, accentB = 64
+    let colorFrame = 0
+
+    function resize() {
+      const ratio = window.devicePixelRatio || 1
+      w = window.innerWidth
+      h = window.innerHeight
+      canvas.width = Math.floor(w * ratio)
+      canvas.height = Math.floor(h * ratio)
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0)
+    }
+    resize()
+    window.addEventListener('resize', resize, { passive: true })
+
+    function readAccent() {
+      const v = getComputedStyle(document.documentElement).getPropertyValue('--accent-rgb') || '160,0,64'
+      const parts = v.split(',')
+      accentR = parseInt(parts[0].trim(), 10) || 160
+      accentG = parseInt(parts[1].trim(), 10) || 0
+      accentB = parseInt(parts[2].trim(), 10) || 64
+    }
+    readAccent()
+
+    let particles = []
+    let columns = []
+    let blobs = []
+
+    function initScene() {
+      if (type === 'matrix') {
+        const colWidth = 22
+        columns = Array.from({ length: Math.ceil(w / colWidth) }, (_, i) => ({
+          x: i * colWidth + colWidth / 2,
+          y: Math.random() * h * -1.5,
+          speed: Math.random() * 1.6 + 0.9,
+          len: Math.floor(Math.random() * 8) + 7,
+          chars: Array.from({ length: 15 }, () => MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)]),
+        }))
+      } else if (type === 'aurora') {
+        blobs = Array.from({ length: 4 }, (_, i) => ({
+          cx: Math.random(),
+          cy: Math.random() * 0.7,
+          radius: 0.34 + Math.random() * 0.22,
+          phase: Math.random() * Math.PI * 2,
+          drift: 0.0016 + Math.random() * 0.0014,
+          shift: i % 3,
+          alpha: 0.055 + Math.random() * 0.035,
+        }))
+      } else {
+        const count =
+          type === 'fireflies' ? 22
+          : type === 'snow' ? 85
+          : PARTICLE_COUNT
+        particles = Array.from({ length: count }, () => ({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: type === 'snow' ? Math.random() * 2.1 + 0.7
+            : type === 'fireflies' ? Math.random() * 1.6 + 1.2
+            : Math.random() * 1.8 + 0.4,
+          vx: (Math.random() - 0.5) * 0.18,
+          vy: type === 'snow' ? Math.random() * 0.7 + 0.28 : -(Math.random() * 0.26 + 0.06),
+          alpha: type === 'snow' ? Math.random() * 0.45 + 0.22 : Math.random() * 0.32 + 0.06,
+          spin: Math.random() * Math.PI * 2,
+          spinSpeed: (Math.random() - 0.5) * 0.022,
+          phase: Math.random() * Math.PI * 2,
+          wanderAngle: Math.random() * Math.PI * 2,
+        }))
+      }
+    }
+    initScene()
+
+    // matrix columns depend on width — rebuild them on resize
+    const baseResize = resize
+    function resizeScene() {
+      baseResize()
+      if (type === 'matrix') initScene()
+    }
+    window.removeEventListener('resize', resize)
+    window.addEventListener('resize', resizeScene, { passive: true })
+
+    // aurora shifts channels for two companion hues so the glow isn't flat
+    function blobColor(shift) {
+      if (shift === 1) return [accentG, accentB, accentR]
+      if (shift === 2) return [accentB, accentR, accentG]
+      return [accentR, accentG, accentB]
+    }
+
+    function draw() {
+      colorFrame++
+      if (colorFrame % 90 === 0) readAccent()
+      ctx.clearRect(0, 0, w, h)
+
+      if (type === 'aurora') {
+        for (const b of blobs) {
+          b.phase += b.drift
+          const x = (b.cx + Math.sin(b.phase) * 0.18) * w
+          const y = (b.cy + Math.cos(b.phase * 0.8) * 0.14) * h
+          const radius = b.radius * Math.max(w, h)
+          const [r, g, bl] = blobColor(b.shift)
+          const grad = ctx.createRadialGradient(x, y, 0, x, y, radius)
+          grad.addColorStop(0, `rgba(${r},${g},${bl},${b.alpha})`)
+          grad.addColorStop(1, `rgba(${r},${g},${bl},0)`)
+          ctx.fillStyle = grad
+          ctx.fillRect(x - radius, y - radius, radius * 2, radius * 2)
+        }
+        animId = requestAnimationFrame(draw)
+        return
+      }
+
+      if (type === 'matrix') {
+        ctx.font = '13px monospace'
+        ctx.textAlign = 'center'
+        for (const col of columns) {
+          col.y += col.speed
+          const headRow = Math.floor(col.y / 16)
+          for (let i = 0; i < col.len; i++) {
+            const cy = (headRow - i) * 16
+            if (cy < -20 || cy > h + 20) continue
+            const fade = 1 - i / col.len
+            if (i === 0) {
+              ctx.fillStyle = `rgba(235,255,245,${0.85 * fade})`
+            } else {
+              ctx.fillStyle = `rgba(${accentR},${accentG},${accentB},${0.55 * fade})`
+            }
+            ctx.fillText(col.chars[(headRow - i + 150) % col.chars.length], col.x, cy)
+          }
+          if ((headRow - col.len) * 16 > h + 20) {
+            col.y = Math.random() * -300
+            col.speed = Math.random() * 1.6 + 0.9
+          }
+        }
+        animId = requestAnimationFrame(draw)
+        return
+      }
+
+      for (const p of particles) {
+        if (type === 'fireflies') {
+          p.wanderAngle += (Math.random() - 0.5) * 0.18
+          p.x += Math.cos(p.wanderAngle) * 0.34
+          p.y += Math.sin(p.wanderAngle) * 0.34
+          p.phase += 0.025
+        } else {
+          p.x += p.vx + Math.sin(p.phase) * (type === 'snow' ? 0.22 : 0.07)
+          p.y += p.vy
+          p.spin += p.spinSpeed
+          p.phase += 0.007
+        }
+        if (p.y < -20) { p.y = h + 10; p.x = Math.random() * w }
+        if (p.y > h + 20) { p.y = -10; p.x = Math.random() * w }
+        if (p.x < -20) p.x = w + 20
+        if (p.x > w + 20) p.x = -20
+
+        if (type === 'dots') {
+          ctx.globalAlpha = p.alpha
+          ctx.fillStyle = `rgb(${accentR},${accentG},${accentB})`
+          ctx.beginPath()
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+          ctx.fill()
+        } else if (type === 'stars') {
+          ctx.globalAlpha = p.alpha
+          ctx.fillStyle = `rgb(${accentR},${accentG},${accentB})`
+          drawStar(ctx, p.x, p.y, p.r * 2.8, p.spin)
+        } else if (type === 'sparkles') {
+          ctx.globalAlpha = p.alpha
+          ctx.strokeStyle = `rgb(${accentR},${accentG},${accentB})`
+          ctx.lineWidth = 0.85
+          drawSparkle(ctx, p.x, p.y, p.r * 3.2, p.spin)
+        } else if (type === 'snow') {
+          ctx.globalAlpha = p.alpha
+          ctx.fillStyle = `rgba(240, 246, 255, 0.95)`
+          ctx.beginPath()
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+          ctx.fill()
+        } else if (type === 'fireflies') {
+          const pulse = 0.35 + 0.65 * (0.5 + Math.sin(p.phase) * 0.5)
+          const glowR = p.r * 6
+          const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowR)
+          grad.addColorStop(0, `rgba(${accentR},${accentG},${accentB},${0.5 * pulse})`)
+          grad.addColorStop(1, `rgba(${accentR},${accentG},${accentB},0)`)
+          ctx.globalAlpha = 1
+          ctx.fillStyle = grad
+          ctx.fillRect(p.x - glowR, p.y - glowR, glowR * 2, glowR * 2)
+          ctx.globalAlpha = 0.9 * pulse
+          ctx.fillStyle = `rgb(${accentR},${accentG},${accentB})`
+          ctx.beginPath()
+          ctx.arc(p.x, p.y, p.r * 0.8, 0, Math.PI * 2)
+          ctx.fill()
+        }
+      }
+      ctx.globalAlpha = 1
+      animId = requestAnimationFrame(draw)
+    }
+
+    draw()
+    return () => {
+      cancelAnimationFrame(animId)
+      window.removeEventListener('resize', resizeScene)
+    }
+  }, [type])
+
+  if (type === 'none') return null
+  return <canvas ref={canvasRef} className="particle-canvas" aria-hidden="true" />
 }
 
 const audioGraphCache = new WeakMap()
@@ -1174,16 +1548,17 @@ function SpecsModal({ onClose }) {
   )
 }
 
-function AboutCard({ onOpenSpecs, aboutBio }) {
+function AboutCard({ onOpenSpecs, aboutBio, customSocials }) {
   const tiltRef = useTilt()
   const hasText = aboutBio && aboutBio.replace(/<[^>]*>/g, '').trim().length > 0
+  const badgeList = useMemo(() => parseCustomSocials(customSocials) || socials, [customSocials])
   return (
     <section className="section-card about-card" ref={tiltRef}>
       <div className="section-title-row">
         <h2>About Me</h2>
         <div className="social-badges">
-          {socials.map(({ label, href, icon: Icon, cls }) => (
-            <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} className={`profile-badge ${cls}`}>
+          {badgeList.map(({ label, href, icon: Icon, cls }) => (
+            <a key={`${label}-${href}`} href={href} target="_blank" rel="noreferrer" aria-label={label} className={`profile-badge ${cls}`}>
               <Icon size={12} />
               <span className="badge-label">{label}</span>
             </a>
@@ -1968,6 +2343,65 @@ function AdminUploadsPanel() {
   )
 }
 
+function SocialsEditor({ value, onChange }) {
+  const rows = (() => {
+    try {
+      const parsed = JSON.parse(value)
+      if (Array.isArray(parsed)) return parsed
+    } catch {}
+    return socials.map(({ label, href }) => ({ label, href }))
+  })()
+
+  function commit(next) { onChange(JSON.stringify(next)) }
+  function setRow(i, field, val) { commit(rows.map((r, idx) => (idx === i ? { ...r, [field]: val } : r))) }
+  function move(i, dir) {
+    const j = i + dir
+    if (j < 0 || j >= rows.length) return
+    const next = [...rows]
+    ;[next[i], next[j]] = [next[j], next[i]]
+    commit(next)
+  }
+  function remove(i) { commit(rows.filter((_, idx) => idx !== i)) }
+  function add() { commit([...rows, { label: '', href: '' }]) }
+
+  return (
+    <div className="socials-editor">
+      {rows.map((row, i) => {
+        const { icon: Icon } = detectSocialPlatform(row.href || '')
+        return (
+          <div key={i} className="socials-editor-row">
+            <span className="socials-editor-icon"><Icon size={14} /></span>
+            <input
+              className="admin-input"
+              type="text"
+              placeholder="label"
+              value={row.label || ''}
+              onChange={e => setRow(i, 'label', e.target.value)}
+            />
+            <input
+              className="admin-input"
+              type="text"
+              placeholder="https://…"
+              value={row.href || ''}
+              onChange={e => setRow(i, 'href', e.target.value)}
+            />
+            <button type="button" className="socials-editor-btn" onClick={() => move(i, -1)} disabled={i === 0} aria-label="Move up">
+              <ArrowUp size={13} />
+            </button>
+            <button type="button" className="socials-editor-btn" onClick={() => move(i, 1)} disabled={i === rows.length - 1} aria-label="Move down">
+              <ArrowDown size={13} />
+            </button>
+            <button type="button" className="socials-editor-btn socials-editor-btn--danger" onClick={() => remove(i)} aria-label="Remove">
+              <Trash2 size={13} />
+            </button>
+          </div>
+        )
+      })}
+      <button type="button" className="admin-btn admin-btn--sm" onClick={add}>+ add social</button>
+    </div>
+  )
+}
+
 function AdminPanel() {
   const [step, setStep] = useState(() => localStorage.getItem('admin_token') ? 'check' : 'email')
   const [email, setEmail] = useState('')
@@ -1979,6 +2413,7 @@ function AdminPanel() {
     custom_status: '', location: '', about_bio: '',
     custom_name: '', custom_handle: '', ascii_comment: '', name_style: 'melt',
     custom_avatar_url: '', custom_banner_url: '',
+    particles: 'dots', socials: '',
   })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -2028,7 +2463,7 @@ function AdminPanel() {
         localStorage.setItem('admin_token', data.token)
         setToken(data.token)
         const c = await fetch('/api/admin/content').then(r => r.json()).catch(() => ({}))
-        setContent(c)
+        setContent(prev => ({ ...prev, ...c }))
         setStep('panel')
       } else {
         setError(data.error || 'Invalid code.')
@@ -2039,7 +2474,7 @@ function AdminPanel() {
 
   async function save(e) {
     e.preventDefault()
-    setLoading(true)
+    setLoading(true); setError('')
     try {
       const res = await fetch('/api/admin/content', {
         method: 'PUT',
@@ -2048,7 +2483,11 @@ function AdminPanel() {
       })
       if (res.ok) { setSaved(true); setTimeout(() => setSaved(false), 2500) }
       else if (res.status === 401) { localStorage.removeItem('admin_token'); setStep('email') }
-    } catch {}
+      else {
+        const data = await res.json().catch(() => ({}))
+        setError(data.error || `Save failed (${res.status}).`)
+      }
+    } catch { setError('Save failed — network error.') }
     setLoading(false)
   }
 
@@ -2249,6 +2688,32 @@ function AdminPanel() {
             />
           </label>
 
+          <p className="admin-section-label">socials</p>
+          <div className="admin-field">
+            <span>social badges (icon auto-detects from url)</span>
+            <SocialsEditor
+              value={content.socials || ''}
+              onChange={val => setContent(c => ({ ...c, socials: val }))}
+            />
+          </div>
+
+          <p className="admin-section-label">particles</p>
+          <div className="admin-field">
+            <span>background style</span>
+            <div className="particle-picker">
+              {PARTICLE_STYLES.map(({ id, label }) => (
+                <button
+                  key={id}
+                  type="button"
+                  className={`style-picker-btn${(content.particles ?? 'dots') === id ? ' active' : ''}`}
+                  onClick={() => setContent(c => ({ ...c, particles: id }))}
+                >
+                  <span>{label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
           <p className="admin-section-label">bio</p>
 
           <div className="admin-field">
@@ -2321,6 +2786,7 @@ export default function App() {
         </button>
       </div>
       <div className="page-backdrop" />
+      <ParticleCanvas type={siteContent.particles ?? 'dots'} />
       <section className="bio-container">
         <div className="top-grid">
           <ProfileCard
@@ -2338,7 +2804,7 @@ export default function App() {
           </div>
         </div>
         <div className="bottom-grid">
-          <AboutCard onOpenSpecs={() => setSpecsOpen(true)} aboutBio={siteContent.about_bio} />
+          <AboutCard onOpenSpecs={() => setSpecsOpen(true)} aboutBio={siteContent.about_bio} customSocials={siteContent.socials} />
           <SongsCard onSelectTrack={setSelectedTrack} />
         </div>
         <GamesCard />
